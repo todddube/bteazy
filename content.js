@@ -14,19 +14,19 @@
     highlightLinks: true,
     managedDomains: []
   }, function(result) {
-    console.log('[Torrent Downloader] Loaded settings:', result);
+    console.log('[BTEazy] Loaded settings:', result);
 
     settings.enabled = result.enabled;
     settings.highlightLinks = result.highlightLinks;
     settings.managedDomains = result.managedDomains || [];
 
-    console.log('[Torrent Downloader] Extension enabled:', settings.enabled);
+    console.log('[BTEazy] Extension enabled:', settings.enabled);
 
     if (settings.enabled) {
-      console.log('[Torrent Downloader] Initializing link detection...');
+      console.log('[BTEazy] Initializing link detection...');
       initTorrentLinkDetection();
     } else {
-      console.log('[Torrent Downloader] Extension is disabled');
+      console.log('[BTEazy] Extension is disabled');
     }
   });
 
@@ -59,11 +59,11 @@
   // Initialize torrent link detection
   function initTorrentLinkDetection() {
     const isManaged = isDomainManaged();
-    console.log('[Torrent Downloader] Domain managed:', isManaged);
+    console.log('[BTEazy] Domain managed:', isManaged);
 
     // Find all links on the page
     const links = document.querySelectorAll('a[href]');
-    console.log('[Torrent Downloader] Found', links.length, 'links on page');
+    console.log('[BTEazy] Found', links.length, 'links on page');
 
     let torrentLinksFound = 0;
 
@@ -72,7 +72,7 @@
 
       if (isTorrentLink(href)) {
         torrentLinksFound++;
-        console.log('[Torrent Downloader] Torrent link found:', href);
+        console.log('[BTEazy] Torrent link found:', href);
 
         // Add visual indicator
         if (settings.highlightLinks) {
@@ -96,7 +96,7 @@
       }
     });
 
-    console.log('[Torrent Downloader] Total torrent links detected:', torrentLinksFound);
+    console.log('[BTEazy] Total torrent links detected:', torrentLinksFound);
 
     // Watch for dynamically added links
     observeDOMChanges();
@@ -104,11 +104,11 @@
 
   // Handle torrent link clicks
   function handleTorrentClick(event) {
-    console.log('[Torrent Downloader] Torrent link clicked!');
-    console.log('[Torrent Downloader] Settings enabled:', settings.enabled);
+    console.log('[BTEazy] Torrent link clicked!');
+    console.log('[BTEazy] Settings enabled:', settings.enabled);
 
     if (!settings.enabled) {
-      console.log('[Torrent Downloader] Extension disabled, not handling click');
+      console.log('[BTEazy] Extension disabled, not handling click');
       return;
     }
 
@@ -118,17 +118,17 @@
     const link = event.currentTarget;
     const href = link.href;
 
-    console.log('[Torrent Downloader] Link URL:', href);
+    console.log('[BTEazy] Link URL:', href);
 
     // Check if it's a magnet link
     const isMagnet = href.startsWith('magnet:');
     if (isMagnet) {
-      console.log('[Torrent Downloader] Magnet link detected, converting to .torrent');
+      console.log('[BTEazy] Magnet link detected, converting to .torrent');
     }
 
     // For both .torrent files and magnet links, send to background for download
     const filename = extractFilename(href, link.textContent);
-    console.log('[Torrent Downloader] Sending download request for:', filename);
+    console.log('[BTEazy] Sending download request for:', filename);
 
     chrome.runtime.sendMessage({
       action: 'downloadTorrent',
@@ -136,10 +136,10 @@
       filename: filename,
       isMagnet: isMagnet
     }, function(response) {
-      console.log('[Torrent Downloader] Download response:', response);
+      console.log('[BTEazy] Download response:', response);
 
       if (chrome.runtime.lastError) {
-        console.error('[Torrent Downloader] Runtime error:', chrome.runtime.lastError);
+        console.error('[BTEazy] Runtime error:', chrome.runtime.lastError);
         showNotification('Extension error: ' + chrome.runtime.lastError.message, 'error');
         return;
       }
@@ -151,7 +151,7 @@
         showNotification(message, 'success');
       } else {
         const errorMsg = response && response.error ? response.error : 'Unknown error';
-        console.error('[Torrent Downloader] Download failed:', errorMsg);
+        console.error('[BTEazy] Download failed:', errorMsg);
         showNotification('Failed to download: ' + errorMsg, 'error');
       }
     });

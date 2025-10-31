@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Torrent File Downloader",
+  "name": "BTEazy",
   "version": "1.0.0",
-  "description": "Download torrent files directly to your downloads folder. Manage and recognize torrent links on any page.",
+  "description": "Effortlessly download torrents with BTEazy. Converts magnet links, tracks download history, and features a modern dark UI.",
   "permissions": [
     "downloads",
     "storage",

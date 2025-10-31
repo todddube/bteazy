@@ -317,7 +317,7 @@ async function handleTorrentDownload(url, filename, isMagnet = false) {
                   chrome.notifications.create({
                     type: 'basic',
                     iconUrl: 'icons/icon48.png',
-                    title: 'Torrent Conversion Warning',
+                    title: 'BTEazy - Conversion Warning',
                     message: 'The downloaded file may not be valid. The torrent might not exist in the DHT network yet, or the conversion service is unavailable.'
                   });
                 }
@@ -357,7 +357,7 @@ chrome.downloads.onChanged.addListener(function(downloadDelta) {
           chrome.notifications.create({
             type: 'basic',
             iconUrl: 'icons/icon48.png',
-            title: 'Torrent Download Complete',
+            title: 'BTEazy - Download Complete',
             message: 'Your torrent file has been downloaded successfully.'
           });
         }
@@ -369,7 +369,7 @@ chrome.downloads.onChanged.addListener(function(downloadDelta) {
           chrome.notifications.create({
             type: 'basic',
             iconUrl: 'icons/icon48.png',
-            title: 'Torrent Download Failed',
+            title: 'BTEazy - Download Failed',
             message: 'The torrent file download was interrupted.'
           });
         }

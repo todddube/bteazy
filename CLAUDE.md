@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Chrome/Edge browser extension that intercepts torrent links and downloads `.torrent` files directly to the user's downloads folder. The extension prevents torrent files from automatically opening in BitTorrent clients.
+BTEazy is a modern Chrome/Edge browser extension that intercepts torrent links and downloads `.torrent` files directly to the user's downloads folder. Features magnet link conversion, download history tracking, and a sleek dark cyberpunk-inspired UI with cyan/purple gradients. The extension prevents torrent files from automatically opening in BitTorrent clients.
 
 ## Development Setup
 
@@ -24,7 +24,7 @@ After modifying source files:
 5. Open Browser console (F12) on webpage for content script logs
 
 ### Testing Workflow
-See [TESTING.md](torrent-downloader-extension/TESTING.md) for comprehensive testing procedures.
+See the Testing section in [README.md](torrent-downloader-extension/README.md) for comprehensive testing procedures.
 
 ## Architecture
 

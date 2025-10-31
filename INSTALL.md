@@ -1,4 +1,4 @@
-# Quick Installation Guide
+# BTEazy - Quick Installation Guide
 
 ## Step 1: Generate Icons
 
@@ -33,14 +33,15 @@
    - Download folder location
    - Auto-save preferences
    - Notification settings
-   - Add frequently-used torrent sites to Managed Domains
+   - Add frequently-used domains to Managed Domains
 
 ## Step 5: Test It Out
 
-1. Navigate to a website with torrent links
-2. Look for the download icon (⬇️) next to torrent links
-3. Click a torrent link
-4. Check your downloads folder for the .torrent file
+1. Navigate to a website with torrent download links
+2. Look for the download icon (⬇️) and green highlight on torrent links
+3. Click a torrent or magnet link
+4. Watch the extension badge turn yellow (processing), then green (complete)
+5. Check your downloads folder for the .torrent file
 
 ## Troubleshooting
 
