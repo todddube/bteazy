@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Icon Generator - Torrent Downloader</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .preview-container {
+      display: flex;
+      gap: 30px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .icon-preview {
+      text-align: center;
+    }
+
+    canvas {
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      display: block;
+      margin: 10px auto;
+    }
+
+    .icon-label {
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin: 5px;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #5568d3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .instructions {
+      background: #f0f3ff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+      border-left: 4px solid #667eea;
+    }
+
+    .instructions h3 {
+      margin-top: 0;
+      color: #667eea;
+    }
+
+    .instructions ol {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .instructions li {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .success-message {
+      background: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Extension Icon Generator</h1>
+    <p class="description">
+      This tool generates simple placeholder icons for the Torrent Downloader extension.
+      The icons feature a download arrow symbol on a gradient background.
+    </p>
+
+    <div class="preview-container">
+      <div class="icon-preview">
+        <canvas id="icon16" width="16" height="16"></canvas>
+        <div class="icon-label">16x16 pixels</div>
+        <button class="btn" onclick="downloadIcon('icon16', 'icon16.png')">Download</button>
+      </div>
+
+      <div class="icon-preview">
+        <canvas id="icon48" width="48" height="48"></canvas>
+        <div class="icon-label">48x48 pixels</div>
+        <button class="btn" onclick="downloadIcon('icon48', 'icon48.png')">Download</button>
+      </div>
+
+      <div class="icon-preview">
+        <canvas id="icon128" width="128" height="128"></canvas>
+        <div class="icon-label">128x128 pixels</div>
+        <button class="btn" onclick="downloadIcon('icon128', 'icon128.png')">Download</button>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button class="btn" onclick="downloadAllIcons()" style="background: #4CAF50;">Download All Icons</button>
+    </div>
+
+    <div id="successMessage" class="success-message"></div>
+
+    <div class="instructions">
+      <h3>How to Use</h3>
+      <ol>
+        <li>Click "Download All Icons" to download all three icon files</li>
+        <li>Create an "icons" folder in the extension directory</li>
+        <li>Move the downloaded PNG files into the icons folder</li>
+        <li>Your extension is now ready to use!</li>
+      </ol>
+      <p><strong>Note:</strong> You can also create custom icons using any image editor and save them as PNG files with these exact dimensions.</p>
+    </div>
+  </div>
+
+  <script>
+    // Generate icons when page loads
+    window.addEventListener('load', function() {
+      generateIcon('icon16', 16);
+      generateIcon('icon48', 48);
+      generateIcon('icon128', 128);
+    });
+
+    function generateIcon(canvasId, size) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+
+      // Create gradient background matching theme colors
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#00d9ff'); // Cyan
+      gradient.addColorStop(1, '#7b2cbf'); // Purple
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+
+      // Draw download arrow
+      ctx.fillStyle = 'white';
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = Math.max(1, size / 16);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      const centerX = size / 2;
+      const centerY = size / 2;
+      const arrowSize = size * 0.6;
+      const arrowWidth = arrowSize * 0.15;
+      const arrowHeadSize = arrowSize * 0.3;
+
+      // Arrow shaft
+      ctx.fillRect(
+        centerX - arrowWidth / 2,
+        centerY - arrowSize / 2,
+        arrowWidth,
+        arrowSize * 0.6
+      );
+
+      // Arrow head
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY + arrowSize / 2);
+      ctx.lineTo(centerX - arrowHeadSize / 2, centerY + arrowSize / 2 - arrowHeadSize);
+      ctx.lineTo(centerX + arrowHeadSize / 2, centerY + arrowSize / 2 - arrowHeadSize);
+      ctx.closePath();
+      ctx.fill();
+
+      // Base line
+      const baseY = centerY + arrowSize / 2 + arrowWidth;
+      ctx.fillRect(
+        centerX - arrowSize / 2.5,
+        baseY,
+        arrowSize / 1.25,
+        arrowWidth
+      );
+    }
+
+    function downloadIcon(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      showSuccess('Downloaded ' + filename);
+    }
+
+    function downloadAllIcons() {
+      setTimeout(() => downloadIcon('icon16', 'icon16.png'), 100);
+      setTimeout(() => downloadIcon('icon48', 'icon48.png'), 300);
+      setTimeout(() => downloadIcon('icon128', 'icon128.png'), 500);
+
+      showSuccess('All icons downloaded! Check your downloads folder.');
+    }
+
+    function showSuccess(message) {
+      const successEl = document.getElementById('successMessage');
+      successEl.textContent = message;
+      successEl.style.display = 'block';
+
+      setTimeout(() => {
+        successEl.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

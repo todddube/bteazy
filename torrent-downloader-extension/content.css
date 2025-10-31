@@ -1,0 +1,77 @@
+/* Content script styles for torrent links */
+
+/* Highlighted torrent links */
+a.torrent-link-detected {
+  position: relative;
+  background: linear-gradient(120deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+  border-radius: 3px;
+  padding: 2px 4px;
+  transition: all 0.2s ease;
+}
+
+a.torrent-link-detected:hover {
+  background: linear-gradient(120deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+/* Torrent icon */
+.torrent-icon {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 14px;
+  opacity: 0.8;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Notification styles */
+.torrent-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  max-width: 350px;
+  word-wrap: break-word;
+}
+
+.torrent-notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.torrent-notification-success {
+  border-left: 4px solid #4CAF50;
+}
+
+.torrent-notification-error {
+  border-left: 4px solid #f44336;
+}
+
+.torrent-notification-info {
+  border-left: 4px solid #2196F3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+
+/* Make sure notifications are above everything */
+.torrent-notification {
+  pointer-events: none;
+}

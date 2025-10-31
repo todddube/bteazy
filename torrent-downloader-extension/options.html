@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torrent Downloader - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Torrent Downloader Settings</h1>
+    </header>
+
+    <main>
+      <section class="settings-section">
+        <h2>General Settings</h2>
+
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="label-text">Enable Extension</span>
+            <span class="label-description">When disabled, torrent links will not be intercepted</span>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="enabledToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="label-text">Highlight Torrent Links</span>
+            <span class="label-description">Visually highlight torrent links on web pages</span>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="highlightLinksToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="label-text">Auto-Save Downloads</span>
+            <span class="label-description">Automatically save without showing file picker dialog</span>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="autoSaveToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label">
+            <span class="label-text">Show Notifications</span>
+            <span class="label-description">Display notifications when downloads complete</span>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="showNotificationsToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>Download Location</h2>
+
+        <div class="setting-row">
+          <label class="setting-label full-width">
+            <span class="label-text">Download Folder</span>
+            <span class="label-description">
+              Relative path within your downloads folder (e.g., "torrents" or "media/torrents").
+              Leave empty to use default downloads folder.
+            </span>
+            <input type="text" id="downloadPathInput" class="text-input" placeholder="Leave empty for default">
+          </label>
+        </div>
+
+        <div class="setting-actions">
+          <button id="savePathBtn" class="btn btn-primary">Save Path</button>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>Managed Domains</h2>
+        <p class="section-description">
+          Add domains where you frequently download torrents. The extension will be optimized for these sites.
+        </p>
+
+        <div class="domain-manager">
+          <div class="add-domain">
+            <input type="text" id="newDomainInput" class="text-input" placeholder="Enter domain (e.g., example.com)">
+            <button id="addDomainBtn" class="btn btn-primary">Add Domain</button>
+          </div>
+
+          <div class="domain-list" id="domainList">
+            <p class="empty-message">No managed domains yet</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h2>About</h2>
+        <div class="about-info">
+          <p><strong>Version:</strong> 1.0.0</p>
+          <p><strong>Description:</strong> Download torrent files directly to your downloads folder without opening them in your BitTorrent client.</p>
+          <p><strong>How it works:</strong> This extension intercepts clicks on torrent links and downloads the .torrent file to your specified location. You can then manually add these files to your preferred BitTorrent client.</p>
+        </div>
+      </section>
+
+      <section class="settings-section danger-zone">
+        <h2>Reset Settings</h2>
+        <p>Reset all settings to their default values. This cannot be undone.</p>
+        <button id="resetBtn" class="btn btn-danger">Reset to Defaults</button>
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
