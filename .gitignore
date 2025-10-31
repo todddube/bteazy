@@ -9,10 +9,15 @@ Thumbs.db
 *.swo
 *~
 
-# Extension packaging
+# Build artifacts
+dist/
 *.zip
 *.crx
 *.pem
+
+# Node modules (if using build.js)
+node_modules/
+package-lock.json
 
 # Logs
 *.log

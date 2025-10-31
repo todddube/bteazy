@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Build extension
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          cat > release_notes.md << EOF
+          ## BTEazy v${VERSION}
+
+          Modern Chrome/Edge extension for effortless torrent downloads.
+
+          ### Features
+          - Download .torrent files directly to your downloads folder
+          - Automatic magnet link conversion
+          - Download history tracking (last 10 downloads)
+          - Modern dark UI with cyan/purple gradients
+          - Visual badge indicators (yellow = processing, green = complete)
+
+          ### Installation
+          1. Download \`bteazy-v${VERSION}.zip\`
+          2. Extract the zip file
+          3. Open Chrome/Edge and navigate to extensions page
+          4. Enable "Developer mode"
+          5. Click "Load unpacked" and select the extracted folder
+
+          For detailed instructions, see the [README](https://github.com/${{ github.repository }}/blob/main/README.md).
+          EOF
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: release_notes.md
+          files: dist/bteazy-v*.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
