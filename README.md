@@ -1,358 +1,225 @@
 # BTEazy - Effortless Torrent Downloads
 
-A modern Chrome and Edge browser extension that intercepts torrent links and downloads `.torrent` files directly to your downloads folder. Features a sleek dark cyberpunk theme with cyan and purple gradients, magnet link conversion, and download history tracking.
+A modern Chrome and Edge browser extension that intercepts torrent links and downloads `.torrent` files directly to your downloads folder. Features magnet link conversion, download history tracking, and a sleek dark UI.
 
 ## Features
 
-- **🎨 Modern Dark UI**: Sleek cyberpunk-inspired interface with gradient accents
-- **📥 Direct Download**: Downloads `.torrent` files directly to your downloads folder
-- **🧲 Magnet Link Conversion**: Automatically converts magnet links to `.torrent` files
-- **📊 Download History**: Track your last 10 downloads with timestamps
-- **🎯 Automatic Link Detection**: Detects and highlights torrent links on any webpage
-- **💾 Customizable Download Location**: Specify a subfolder within your downloads directory
-- **🔔 Visual Badge Indicators**: Shows yellow badge while processing, green when complete
-- **🌐 Managed Domains**: Add frequently-used torrent sites for optimized performance
-- **⚙️ Flexible Settings**:
-  - Toggle extension on/off
-  - Auto-save or show save dialog
-  - Enable/disable link highlighting
-  - Enable/disable notifications
+- **Direct Download** - Downloads `.torrent` files directly to your downloads folder
+- **Magnet Link Conversion** - Automatically converts magnet links to `.torrent` files
+- **Download History** - Track your last 10 downloads with timestamps
+- **Link Detection** - Detects and highlights torrent links on any webpage
+- **Custom Download Location** - Specify a subfolder within your downloads directory
+- **Visual Indicators** - Badge shows processing (yellow) and complete (green) states
+- **Flexible Settings** - Toggle extension, auto-save, link highlighting, and notifications
 
 ## Installation
 
 ### Chrome
 
 1. Download or clone this repository
-2. Open the `generate-icons.html` file in your browser
-3. Click "Download All Icons" and save them to the `icons/` folder
-4. Navigate to `chrome://extensions/`
-5. Enable "Developer mode" in the top right corner
-6. Click "Load unpacked"
-7. Select the `torrent-downloader-extension` folder
-8. The extension is now installed!
+2. Open `generate-icons.html` in your browser and save icons to the `icons/` folder
+3. Navigate to `chrome://extensions/`
+4. Enable **Developer mode** (top right)
+5. Click **Load unpacked** and select the project folder
 
 ### Microsoft Edge
 
 1. Download or clone this repository
-2. Open the `generate-icons.html` file in your browser
-3. Click "Download All Icons" and save them to the `icons/` folder
-4. Navigate to `edge://extensions/`
-5. Enable "Developer mode" in the left sidebar
-6. Click "Load unpacked"
-7. Select the `torrent-downloader-extension` folder
-8. The extension is now installed!
+2. Open `generate-icons.html` in your browser and save icons to the `icons/` folder
+3. Navigate to `edge://extensions/`
+4. Enable **Developer mode** (left sidebar)
+5. Click **Load unpacked** and select the project folder
 
 ## Usage
 
 ### Basic Usage
 
-1. **Enable the Extension**: Click the extension icon in your browser toolbar - the toggle should be ON
-2. **Browse Torrent Sites**: Navigate to any website with torrent links
-3. **Click Torrent Links**: The extension will automatically intercept clicks and download files
-4. **Watch the Badge**: Yellow "..." badge appears during processing, green "✓" when complete
-5. **View History**: Click the extension icon to see your last 10 downloads
-6. **Find Your Files**: Downloaded files are in your downloads folder (or specified subfolder)
+1. **Enable** - Click the extension icon and toggle ON
+2. **Browse** - Navigate to any website with torrent links
+3. **Download** - Click any torrent link to download automatically
+4. **Monitor** - Watch the badge: yellow (processing) → green (complete)
+5. **View History** - Click the extension icon to see recent downloads
 
-### Magnet Link Conversion
+### Magnet Links
 
 When you click a magnet link:
-- Extension shows yellow "..." badge (processing)
-- Extracts the BitTorrent info hash from the magnet link
-- Converts to `.torrent` file via itorrents.org service
-- Downloads the `.torrent` file automatically
-- Shows green "✓" badge when complete
-- **Note**: Magnet must contain a valid hash that exists in the DHT network
+1. Badge turns yellow (processing)
+2. Hash is extracted and converted via itorrents.org
+3. `.torrent` file downloads automatically
+4. Badge turns green (complete)
+
+**Note**: The magnet link must contain a valid hash that exists in the DHT network.
 
 ### Download History
 
-The popup shows your recent activity:
-- **M** badge = Magnet link (converted to .torrent)
-- **T** badge = Direct torrent file download
-- Displays filename and time ago (e.g., "5m ago", "2h ago")
-- Click "Clear" to remove all history
-- Automatically keeps only the last 10 downloads
+The popup displays recent activity:
+- **M** badge = Magnet link (converted)
+- **T** badge = Direct torrent file
+- Shows filename and relative time (e.g., "5m ago")
 
-### Settings Configuration
+### Settings
 
-Click "Settings" in the popup to access:
+Click **Settings** in the popup to configure:
 
-**General Settings:**
-- Enable/disable extension
-- Toggle link highlighting
-- Auto-save without file picker dialog
-- Show/hide notifications
-
-**Download Location:**
-- Set relative path within downloads folder (e.g., `torrents` or `media/torrents`)
-- Leave empty for default downloads folder
-
-**Managed Domains:**
-- Add frequently-visited torrent sites
-- Optimizes link detection for those domains
-- Easily remove domains from the list
+| Setting | Description |
+|---------|-------------|
+| Enable/Disable | Master toggle for the extension |
+| Link Highlighting | Show visual indicators on torrent links |
+| Auto-save | Download without file picker dialog |
+| Notifications | Show download completion alerts |
+| Download Path | Subfolder within downloads (e.g., `torrents`) |
+| Managed Domains | Add frequently-visited torrent sites |
 
 ## How It Works
 
-### Architecture
+### Architecture (Manifest V3)
 
-The extension uses Manifest V3 with three main components:
+| Component | File | Purpose |
+|-----------|------|---------|
+| Service Worker | `background.js` | Downloads, magnet conversion, history, notifications |
+| Content Script | `content.js` | Link detection, click interception, visual indicators |
+| Popup UI | `popup.*` | Quick toggle, history, status |
+| Options UI | `options.*` | Full settings page |
 
-1. **Service Worker (background.js)**
-   - Handles download operations
-   - Converts magnet links to .torrent files via itorrents.org
-   - Manages settings and download history
-   - Shows notifications and badge indicators
-
-2. **Content Script (content.js)**
-   - Scans pages for torrent and magnet links
-   - Adds visual indicators (highlighting + icons)
-   - Intercepts clicks and sends to background
-   - Uses MutationObserver for dynamic content
-
-3. **UI Components**
-   - **Popup**: Quick toggle, download history, and status
-   - **Settings**: Full configuration page
-   - **Modern Dark Theme**: Cyan (#00d9ff) and purple (#7b2cbf) gradients
-
-### Link Detection Patterns
+### Link Detection
 
 Automatically detects:
 - Direct `.torrent` files: `https://example.com/file.torrent`
-- Query parameter torrents: `https://example.com/download?file=name.torrent`
+- Query parameters: `https://example.com/download?file=name.torrent`
 - Download scripts: `https://example.com/download.php?id=123`
 - Magnet links: `magnet:?xt=urn:btih:...`
 
-### Magnet Link Conversion Process
+### Magnet Conversion Process
 
-1. Extracts BitTorrent info hash from magnet URL (`btih:HASH`)
-2. Extracts display name from `dn` parameter (if available)
-3. Downloads `.torrent` from `https://itorrents.org/torrent/HASH.torrent`
-4. Validates file size (must be >100 bytes) and MIME type
-5. Warns user if conversion fails (invalid hash or service unavailable)
+1. Extracts BitTorrent info hash (`btih:HASH`)
+2. Downloads from `https://itorrents.org/torrent/HASH.torrent`
+3. Validates file size (>100 bytes) and MIME type
+4. Warns if conversion fails
 
-## Testing
+## Permissions
 
-### Step 1: Reload Extension After Changes
+| Permission | Purpose |
+|------------|---------|
+| `downloads` | Download .torrent files |
+| `storage` | Save settings and history locally |
+| `activeTab` | Access current tab for link detection |
+| `scripting` | Inject content scripts |
+| `notifications` | Show download notifications |
+| `contextMenus` | Right-click menu integration |
+| `<all_urls>` | Work on any website |
+
+**Privacy**: All data is stored locally. No data is collected or transmitted.
+
+## Troubleshooting
+
+### Links Not Detected
+- Ensure extension is enabled (toggle ON)
+- Enable link highlighting in settings
+- Refresh page after enabling
+
+### Downloads Not Starting
+- Check browser permissions
+- Enable "Auto-save without prompt"
+- Verify download path has no special characters
+
+### Magnet Conversion Fails
+- Magnet must contain valid `btih:` hash
+- Hash must exist in DHT network
+- itorrents.org must be accessible
+- Check if downloaded file is >100 bytes
+
+### Extension Context Invalidated
+1. Reload extension in `chrome://extensions/`
+2. Refresh all webpages
+
+## Development
+
+### Testing Changes
 
 1. Go to `chrome://extensions/` or `edge://extensions/`
-2. Find "BTEazy"
-3. Click the **Reload** button (circular arrow icon)
-4. Open the **Service Worker** console: click "service worker" under the extension
-5. Refresh any webpages where you want to test
+2. Click **Reload** on the extension card
+3. Open **Service Worker** console for background logs
+4. Open browser console (F12) for content script logs
+5. Refresh test pages
 
-### Step 2: Verify Settings Persistence
+### Debug Commands
 
-1. Click extension icon → Toggle settings ON
-2. Enable all options (highlight, auto-save, notifications)
-3. Close popup and **restart browser**
-4. Click extension icon again
-5. ✅ Verify all settings are still ON
-
-### Step 3: Test with Sample Page
-
-Create a test HTML file:
-
-```html
-<!DOCTYPE html>
-<html>
-<head><title>Torrent Test Page</title></head>
-<body>
-  <h1>Test Torrent Links</h1>
-
-  <h2>Direct .torrent links:</h2>
-  <ul>
-    <li><a href="https://example.com/test.torrent">Test Torrent 1</a></li>
-    <li><a href="https://example.com/download.torrent?id=123">Test Torrent 2</a></li>
-  </ul>
-
-  <h2>Magnet link:</h2>
-  <ul>
-    <li><a href="magnet:?xt=urn:btih:1234567890abcdef&dn=TestFile">Test Magnet</a></li>
-  </ul>
-</body>
-</html>
-```
-
-Save as `test-torrents.html` and open in browser.
-
-### Step 4: Test Torrent Download
-
-1. Open test page or visit a torrent site
-2. Look for green highlighting on torrent links
-3. Open browser console (F12)
-4. Click a `.torrent` link
-5. Check console for: `[BTEazy] Download started successfully`
-6. Watch extension badge turn yellow, then green
-7. Check downloads folder for the file
-
-### Step 5: Test Magnet Conversion
-
-1. Find or create a magnet link
-2. Click the magnet link
-3. Watch badge turn yellow ("..." processing)
-4. Console should show: `Converting magnet to .torrent`
-5. Badge turns green ("✓") when complete
-6. Check downloads folder for converted `.torrent` file
-
-### Expected Behavior
-
-**When Enabled:**
-- ✅ Torrent links have green highlight
-- ✅ Download icon appears on links
-- ✅ Clicking `.torrent` downloads file
-- ✅ Clicking magnet converts and downloads
-- ✅ Yellow badge during processing
-- ✅ Green badge on completion
-- ✅ History shows in popup
-
-**When Disabled:**
-- ❌ No highlighting or icons
-- ❌ Links work normally
-- 🔴 Badge shows "OFF" on extension icon
-
-### Debugging
-
-**Open Two Consoles:**
-1. Page Console: F12 on the webpage
-2. Service Worker Console: Extensions page → "service worker" link
-
-**Common Commands:**
 ```javascript
-// In Service Worker console - check settings:
+// Check settings (in Service Worker console)
 chrome.storage.local.get(null, (data) => console.log(data));
 
-// Test manual download:
+// Test download
 chrome.downloads.download({
   url: 'https://example.com/test.torrent',
   filename: 'test.torrent'
 }, (id) => console.log('Download ID:', id));
 ```
 
-## Troubleshooting
-
-### Links Not Being Detected
-
-- Ensure extension is enabled (toggle ON in popup)
-- Verify link highlighting is enabled in settings
-- Refresh page after enabling extension
-- Check browser console for detection logs
-
-### Downloads Not Starting
-
-- Check browser permissions for the extension
-- Try enabling "Auto-save without prompt"
-- Look for errors in both consoles
-- Verify download path contains no special characters
-
-### Magnet Conversion Fails
-
-- Check console for validation errors
-- Magnet link must contain valid `btih:` hash
-- Hash must exist in DHT network (recently shared torrents)
-- itorrents.org service must be accessible
-- Check if file downloaded is >100 bytes (not an error page)
-
-### Extension Context Invalidated
-
-**Error**: "Extension context invalidated"
-**Solution**:
-1. Reload extension in `chrome://extensions/`
-2. Refresh all webpages
-
-### Settings Not Persisting
-
-- Check Service Worker console for "Settings saved successfully"
-- Clear browser cache: Settings → Privacy → Clear browsing data
-- Verify browser storage permissions
-
-## Permissions
-
-This extension requires:
-
-- **downloads**: Download .torrent files
-- **storage**: Save settings and history locally
-- **activeTab**: Access current tab for link detection
-- **scripting**: Inject content scripts
-- **notifications**: Show download notifications
-- **contextMenus**: Right-click menu integration
-- **host_permissions (<all_urls>)**: Work on any website
-
-**Privacy**: This extension does NOT collect, store, or transmit any personal data. All settings and history are stored locally in your browser.
-
-## Project Structure
+### Project Structure
 
 ```
-torrent-downloader-extension/
-├── manifest.json           # Manifest V3 configuration
-├── background.js           # Service worker (downloads, conversion, history)
-├── content.js              # Link detection and click handling
-├── content.css             # Link highlighting styles
-├── popup.html              # Extension popup UI
-├── popup.js                # Popup functionality
-├── popup.css               # Modern dark theme styles
-├── options.html            # Full settings page
-├── options.js              # Settings functionality
-├── options.css             # Settings page dark theme
-├── generate-icons.html     # Icon generator with theme colors
-├── icons/                  # Extension icons (cyan/purple gradient)
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-├── CLAUDE.md               # Development guide for AI assistants
-└── README.md               # This file
+bteazy/
+├── manifest.json       # Manifest V3 configuration
+├── background.js       # Service worker
+├── content.js          # Link detection
+├── content.css         # Link highlighting styles
+├── popup.html/js/css   # Extension popup
+├── options.html/js/css # Settings page
+├── generate-icons.html # Icon generator
+└── icons/              # Extension icons
 ```
+
+### Modifying Features
+
+| Feature | File | Function |
+|---------|------|----------|
+| Link detection | `content.js` | `isTorrentLink()` |
+| Download behavior | `background.js` | `handleTorrentDownload()` |
+| UI changes | HTML/CSS files | Various |
+| New settings | `background.js` | `DEFAULT_SETTINGS` |
+
+## Building for Release
+
+### Using Build Scripts
+
+**Windows:**
+```powershell
+.\build.ps1
+```
+
+**Linux/Mac:**
+```bash
+chmod +x build.sh
+./build.sh
+```
+
+Creates `dist/bteazy-vX.X.X.zip` ready for store submission.
+
+### GitHub Releases
+
+Push a version tag to trigger automatic release:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+### Publishing
+
+- **Chrome Web Store**: [Developer Dashboard](https://chrome.google.com/webstore/devconsole)
+- **Edge Add-ons**: [Partner Dashboard](https://partner.microsoft.com/dashboard/microsoftedge/overview)
 
 ## Known Limitations
 
-- Cannot download from sites requiring authentication (session cookies not passed)
-- Magnet conversion requires itorrents.org service availability
-- Magnet links must contain valid hash that exists in DHT network
-- Download path must be relative to browser downloads folder (no absolute paths)
-- MutationObserver may miss links on complex JavaScript frameworks
-
-## Development
-
-### Modifying the Extension
-
-1. Make changes to source files
-2. Go to `chrome://extensions/` or `edge://extensions/`
-3. Click refresh icon on extension card
-4. Refresh any test webpages
-5. Check both consoles for errors
-
-### Adding Features
-
-- **Link Detection**: Edit `content.js` → `isTorrentLink()` function
-- **Download Behavior**: Modify `background.js` → `handleTorrentDownload()`
-- **UI Changes**: Update HTML/CSS files and corresponding JS
-- **New Settings**: Add to `DEFAULT_SETTINGS` in `background.js`
-
-### Theme Colors
-
-The extension uses a modern dark theme:
-- **Background Dark**: `#0f0f23`
-- **Background Darker**: `#08081a`
-- **Card Background**: `#1a1a2e`
-- **Accent Cyan**: `#00d9ff`
-- **Accent Purple**: `#7b2cbf`
-- **Success Green**: `#00ff88`
-- **Warning Yellow**: `#ffbe0b`
-- **Danger Red**: `#ff006e`
+- Cannot download from sites requiring authentication
+- Magnet conversion depends on itorrents.org availability
+- Download path must be relative (no absolute paths)
+- Some JavaScript-heavy sites may not detect all links
 
 ## License
 
-This extension is provided as-is for personal use. Feel free to modify and distribute according to your needs.
-
-## Support
-
-For issues or questions:
-
-1. Check the Troubleshooting section above
-2. Review browser console logs (F12 → Console)
-3. Check Service Worker console for background errors
-4. Verify all permissions are granted
-5. Try disabling and re-enabling the extension
+This extension is provided as-is for personal use.
 
 ---
 
-**Note**: This extension only downloads `.torrent` files. You still need a BitTorrent client (like qBittorrent, Transmission, or uTorrent) to download the actual content referenced by the torrent files.
+**Note**: This extension downloads `.torrent` files only. You need a BitTorrent client (qBittorrent, Transmission, etc.) to download the actual content.

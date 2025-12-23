@@ -7,8 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const historyList = document.getElementById('historyList');
   const clearHistoryBtn = document.getElementById('clearHistoryBtn');
   const openOptionsBtn = document.getElementById('openOptionsBtn');
+  const versionElement = document.getElementById('version');
 
   let currentSettings = {};
+
+  // Load version from manifest
+  const manifest = chrome.runtime.getManifest();
+  versionElement.textContent = manifest.version;
 
   // Load current settings
   loadSettings();

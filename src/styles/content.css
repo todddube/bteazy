@@ -1,0 +1,110 @@
+/**
+ * BTEazy - Content Script Styles
+ * Styling for torrent link detection and notifications
+ */
+
+/* Highlighted torrent links */
+a.bteazy-torrent-link {
+  position: relative;
+  background: linear-gradient(120deg, rgba(0, 217, 255, 0.1) 0%, rgba(123, 44, 191, 0.05) 100%);
+  border-radius: 3px;
+  padding: 2px 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.bteazy-torrent-link:hover {
+  background: linear-gradient(120deg, rgba(0, 217, 255, 0.2) 0%, rgba(123, 44, 191, 0.1) 100%);
+  box-shadow: 0 2px 8px rgba(0, 217, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Torrent icon */
+.bteazy-icon {
+  display: inline-block;
+  margin-right: 6px;
+  font-size: 14px;
+  opacity: 0.9;
+  animation: bteazy-fade-in 0.3s ease;
+  vertical-align: middle;
+}
+
+/* Notification container */
+.bteazy-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 217, 255, 0.2);
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  opacity: 0;
+  transform: translateX(400px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 350px;
+  word-wrap: break-word;
+  pointer-events: none;
+  animation: bteazy-slide-in 0.4s ease forwards;
+}
+
+/* Notification types */
+.bteazy-notification-success {
+  border-left: 4px solid #00ff88;
+}
+
+.bteazy-notification-error {
+  border-left: 4px solid #ff006e;
+}
+
+.bteazy-notification-info {
+  border-left: 4px solid #00d9ff;
+}
+
+/* Fade out animation */
+.bteazy-notification-fade-out {
+  opacity: 0;
+  transform: translateX(400px);
+  transition: all 0.3s ease;
+}
+
+/* Animations */
+@keyframes bteazy-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+@keyframes bteazy-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Ensure proper isolation from host page styles */
+.bteazy-notification,
+.bteazy-icon,
+.bteazy-torrent-link {
+  all: revert;
+}
+
+/* Re-apply our styles after reset */
+.bteazy-notification {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 999999 !important;
+}

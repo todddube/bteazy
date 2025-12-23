@@ -6,20 +6,28 @@
 }
 
 :root {
-  --bg-dark: #0f0f23;
-  --bg-darker: #08081a;
-  --bg-card: #1a1a2e;
-  --bg-hover: #252541;
-  --accent-primary: #00d9ff;
-  --accent-secondary: #7b2cbf;
-  --accent-gradient: linear-gradient(135deg, #00d9ff 0%, #7b2cbf 100%);
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0c8;
-  --text-muted: #6b6b8f;
-  --success: #00ff88;
-  --danger: #ff006e;
-  --warning: #ffbe0b;
-  --shadow: rgba(0, 0, 0, 0.5);
+  /* Background colors - softer dark tones for reduced eye strain */
+  --bg-dark: #12131a;
+  --bg-darker: #0a0b10;
+  --bg-card: #1c1d26;
+  --bg-hover: #262833;
+
+  /* Accent colors - softer, more readable tones */
+  --accent-primary: #5eb5f7;
+  --accent-secondary: #a78bfa;
+  --accent-gradient: linear-gradient(135deg, #5eb5f7 0%, #a78bfa 100%);
+
+  /* Text colors - improved contrast ratios */
+  --text-primary: #f0f1f5;
+  --text-secondary: #b4b8c8;
+  --text-muted: #7c8094;
+
+  /* Status colors - balanced saturation */
+  --success: #4ade80;
+  --danger: #f87171;
+  --warning: #fbbf24;
+
+  --shadow: rgba(0, 0, 0, 0.4);
 }
 
 body {
@@ -279,15 +287,15 @@ main {
 }
 
 .type-indicator.magnet {
-  background: linear-gradient(135deg, #ff006e 0%, #ff4d6d 100%);
+  background: linear-gradient(135deg, #f87171 0%, #fb923c 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(255, 0, 110, 0.3);
+  box-shadow: 0 4px 12px rgba(248, 113, 113, 0.25);
 }
 
 .type-indicator.torrent {
-  background: linear-gradient(135deg, #00d9ff 0%, #00a8cc 100%);
+  background: linear-gradient(135deg, #5eb5f7 0%, #38bdf8 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(94, 181, 247, 0.25);
 }
 
 .history-info {
@@ -376,6 +384,67 @@ main {
 
 .btn-settings svg {
   stroke: currentColor;
+}
+
+/* Footer */
+.popup-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: var(--bg-darker);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 11px;
+  color: var(--text-muted);
+  gap: 12px;
+}
+
+.footer-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.version {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: 300;
+}
+
+.copyright {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.github-link:hover {
+  color: var(--accent-primary);
+  background: rgba(0, 217, 255, 0.1);
+}
+
+.github-link svg {
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.github-link:hover svg {
+  opacity: 1;
 }
 
 /* Toast Notification */
